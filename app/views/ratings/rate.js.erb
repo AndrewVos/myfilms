@@ -3,6 +3,9 @@
   var value = '<%= @value %>'
   var $movie = $('.movie[data-tmdb-id="' + tmdbId + '"]')
   var $glyphs = $movie.find('.star button span.glyphicon')
+  var $wantToWatch = $movie.find('.want-to-watch')
+
+  $wantToWatch.hide()
 
   for (var i = 0; i < $glyphs.length; i++) {
     var $glyph = $($glyphs[i])
