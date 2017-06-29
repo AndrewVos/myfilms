@@ -1,0 +1,20 @@
+(function () {
+  var tmdbId = '<%= @tmdb_id %>'
+  var value = '<%= @value %>'
+  var $movie = $('.movie[data-tmdb-id="' + tmdbId + '"]')
+  var $glyphs = $movie.find('.star button span.glyphicon')
+
+  for (var i = 0; i < $glyphs.length; i++) {
+    var $glyph = $($glyphs[i])
+    var currentValue = i + 1
+
+    $glyph.removeClass('glyphicon-star-empty')
+    $glyph.removeClass('glyphicon-star')
+
+    if (currentValue <= value) {
+      $glyph.addClass('glyphicon-star')
+    } else {
+      $glyph.addClass('glyphicon-star-empty')
+    }
+  }
+})()

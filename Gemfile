@@ -17,6 +17,10 @@ gem 'bootstrap-sass', '~> 3.3.6'
 
 gem 'devise-bootstrap-views'
 
+gem 'httparty'
+
+gem 'jquery-rails'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -45,6 +49,8 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
+  gem 'dotenv-rails'
+  gem 'pry'
   gem 'selenium-webdriver'
 end
 
