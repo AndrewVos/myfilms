@@ -15,6 +15,10 @@ Rails.application.routes.draw do
       post :rate, action: :rate
     end
 
+    collection do
+      resources :recommendations, only: %i(index)
+    end
+
     controller :want_to_watches do
       post :toggle_want_to_watch, action: :toggle
     end

@@ -47,6 +47,13 @@ class Movie < ApplicationRecord
     .select('movies.*, ratings.value AS user_rating, want_to_watches.id > 0 AS user_want_to_watch')
   end
 
+  def self.random_high_rated(user)
+    watched(user)
+      .where('ratings.value > 3')
+      .sample(1)
+      .first
+  end
+
   def poster_url
     return 'http://placehold.it/92x138' unless poster_path.present?
     "https://image.tmdb.org/t/p/w92#{poster_path}"
