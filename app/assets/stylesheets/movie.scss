@@ -2,16 +2,27 @@
   display: inline-block;
   border: 1px solid #ddd;
   border-radius: 3px;
+  margin: 10px;
+  max-width: 300px;
 
   .title {
-    width: 100%;
-    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 5px;
+    font-size: 20px;
   }
 
   .poster {
-    display: block;
-    max-width: 100%;
-    height: auto;
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+
+      min-width: 300px;
+      min-height: 450px;
+    }
   }
 
   .actions {
