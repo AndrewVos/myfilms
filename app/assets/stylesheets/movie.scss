@@ -1,8 +1,48 @@
 .movie {
-  .star, .want-to-watch {
-    display: inline;
-    form {
+  display: inline-block;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+
+  .title {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .poster {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .actions {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    .star {
       display: inline;
+
+      form {
+        display: inline;
+
+        button {
+          padding: 0;
+        }
+      }
+    }
+
+    .want-to-watch {
+      text-align: center;
+      display: inline;
+      float: right;
+      form {
+        display: inline;
+
+        button {
+          padding: 0;
+        }
+      }
     }
   }
 }
