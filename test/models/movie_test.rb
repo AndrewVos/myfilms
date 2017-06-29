@@ -2,7 +2,7 @@ require 'test_helper'
 
 class MovieTest < ActiveSupport::TestCase
   def setup
-    @movie = Movie.create!(tmdb_id: 123, imdb_id: 'csdcs')
+    @movie = Movie.create!(tmdb_id: 123)
     @user = User.create!(email: 'test@test.com', password: 'password')
   end
 

@@ -2,22 +2,16 @@ class Movie < ApplicationRecord
   has_many :ratings
   has_many :want_to_watches
 
-  def self.update_movies(tmdb_ids)
-    existing_ids = Movie.where(tmdb_id: tmdb_ids).pluck(:tmdb_id)
-    to_update = tmdb_ids - existing_ids
+  def self.create_from_tmdb_results(tmdb_results)
+    tmdb_results.each do |tmdb_result|
+      movie = Movie.find_or_initialize_by(tmdb_id: tmdb_result['id'])
 
-    to_update.each do |tmdb_id|
-      json = TheMovieDb.get_cached("/movie/#{tmdb_id}")
-      json['tmdb_id'] = json['id']
-      json.except!(
-        'id',
-        'belongs_to_collection',
-        'genres',
-        'production_companies',
-        'production_countries',
-        'spoken_languages'
+      movie.assign_attributes(
+        tmdb_result
+          .merge('tmdb_id': tmdb_result['id'])
+          .except('id', 'popularity', 'genre_ids')
       )
-      create!(json)
+      movie.save!
     end
   end
 
@@ -33,38 +27,24 @@ class Movie < ApplicationRecord
     includes(:ratings)
       .where(ratings: { user: user })
       .order('ratings.created_at DESC')
+      .with_user_data(user)
   end
 
   def self.want_to_watch(user)
     includes(:want_to_watches)
       .where(want_to_watches: { user: user })
       .order('want_to_watches.created_at DESC')
+      .with_user_data(user)
   end
 
   def self.with_user_data(user)
     joins(
-      <<-SQL
-        LEFT OUTER JOIN ratings
-          ON
-            ratings.movie_id = movies.id
-          AND
-            ratings.user_id = #{user.id}
-    SQL
-  )
+      "LEFT OUTER JOIN ratings ON ratings.movie_id = movies.id AND ratings.user_id = #{user.id}"
+    )
     .joins(
-      <<-SQL
-        LEFT OUTER JOIN want_to_watches
-          ON
-            want_to_watches.movie_id = movies.id
-          AND
-            want_to_watches.user_id = #{user.id}
-      SQL
-  )
+      "LEFT OUTER JOIN want_to_watches ON want_to_watches.movie_id = movies.id AND want_to_watches.user_id = #{user.id}"
+    )
     .select('movies.*, ratings.value AS user_rating, want_to_watches.id > 0 AS user_want_to_watch')
-  end
-
-  def imdb_url
-    "http://www.imdb.com/title/#{imdb_id}/"
   end
 
   def poster_url
