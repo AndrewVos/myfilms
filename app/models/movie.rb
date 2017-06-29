@@ -9,6 +9,32 @@ class Movie
     end
   end
 
+  def self.from_list_of_movie_db_movies(user, tmdb_movies)
+    movies = tmdb_movies.map { |m| Movie.new(m) }
+
+    return movies unless user.present?
+
+    tmdb_movie_ids = tmdb_movies.map { |m| m['id'] }
+
+    want_to_watches = user
+      .want_to_watches
+      .where(tmdb_id: tmdb_movie_ids)
+      .pluck(:tmdb_id)
+
+    ratings = user
+      .ratings
+      .where(tmdb_id: tmdb_movie_ids)
+      .pluck(:tmdb_id, :value)
+    ratings = Hash[*ratings.flatten]
+
+    movies.each do |movie|
+      movie.want_to_watch = want_to_watches.include?(movie.id)
+      movie.rating = ratings[movie.id]
+    end
+
+    movies
+  end
+
   def want_to_watch=(value)
     @want_to_watch = value
   end
