@@ -8,6 +8,6 @@ class HomeController < ApplicationController
 
     @movies = Movie
       .where(tmdb_id: tmdb_ids)
-      .with_user_data(current_user)
+    @movies = @movies.with_user_data(current_user) if current_user.present?
   end
 end
