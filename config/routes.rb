@@ -3,6 +3,13 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'home#index'
 
+  resources :lists, only: %i() do
+    collection do
+      get :watched
+      get :want_to_watch
+    end
+  end
+
   resources :movies, only: %i() do
     controller :ratings do
       post :rate, action: :rate

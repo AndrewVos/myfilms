@@ -1,54 +1,66 @@
-class Movie
-  def initialize(options)
-    @options = options
+class Movie < ApplicationRecord
+  has_many :ratings
+  has_many :want_to_watches
 
-    options.each do |key, value|
-      define_singleton_method key do
-        value
-      end
+  def self.update_movies(tmdb_ids)
+    existing_ids = Movie.where(tmdb_id: tmdb_ids).pluck(:tmdb_id)
+    to_update = tmdb_ids - existing_ids
+
+    to_update.each do |tmdb_id|
+      json = TheMovieDb.get_cached("/movie/#{tmdb_id}")
+      json['tmdb_id'] = json['id']
+      json.except!(
+        'id',
+        'belongs_to_collection',
+        'genres',
+        'production_companies',
+        'production_countries',
+        'spoken_languages'
+      )
+      create!(json)
     end
   end
 
-  def self.from_list_of_movie_db_movies(user, tmdb_movies)
-    movies = tmdb_movies.map { |m| Movie.new(m) }
-
-    return movies unless user.present?
-
-    tmdb_movie_ids = tmdb_movies.map { |m| m['id'] }
-
-    want_to_watches = user
-      .want_to_watches
-      .where(tmdb_id: tmdb_movie_ids)
-      .pluck(:tmdb_id)
-
-    ratings = user
-      .ratings
-      .where(tmdb_id: tmdb_movie_ids)
-      .pluck(:tmdb_id, :value)
-    ratings = Hash[*ratings.flatten]
-
-    movies.each do |movie|
-      movie.want_to_watch = want_to_watches.include?(movie.id)
-      movie.rating = ratings[movie.id]
-    end
-
-    movies
+  def user_rating
+    attributes['user_rating']
   end
 
-  def want_to_watch=(value)
-    @want_to_watch = value
+  def user_want_to_watch?
+    attributes['user_want_to_watch']
   end
 
-  def want_to_watch?
-    @want_to_watch
+  def self.watched(user)
+    includes(:ratings)
+      .where(ratings: { user: user })
+      .order('ratings.created_at DESC')
   end
 
-  def rating=(value)
-    @rating = value
+  def self.want_to_watch(user)
+    includes(:want_to_watches)
+      .where(want_to_watches: { user: user })
+      .order('want_to_watches.created_at DESC')
   end
 
-  def rating
-    @rating
+  def self.with_user_data(user)
+    joins(
+      <<-SQL
+        LEFT OUTER JOIN ratings
+          ON
+            ratings.movie_id = movies.id
+          AND
+            ratings.user_id = #{user.id}
+    SQL
+  )
+    .joins(
+      <<-SQL
+        LEFT OUTER JOIN want_to_watches
+          ON
+            want_to_watches.movie_id = movies.id
+          AND
+            want_to_watches.user_id = #{user.id}
+      SQL
+  )
+    .select('movies.*, ratings.value AS user_rating, want_to_watches.id > 0 AS user_want_to_watch')
   end
 
   def imdb_url

@@ -1,6 +1,6 @@
 (function () {
-  var tmdbId = '<%= @tmdb_id %>'
-  var $movie = $('.movie[data-tmdb-id="' + tmdbId + '"]')
+  var movieId = '<%= @movie_id %>'
+  var $movie = $('.movie[data-id="' + movieId + '"]')
   var $span = $movie.find('.want-to-watch button span')
   $span.toggleClass('glyphicon-check')
   $span.toggleClass('glyphicon-unchecked')

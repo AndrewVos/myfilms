@@ -1,4 +1,4 @@
-<div class="movie" data-tmdb-id="<%= movie.id %>">
+<div class="movie" data-id="<%= movie.id %>">
   <div class="title">
     <span>
     <%= movie.title %>
@@ -15,7 +15,8 @@
         <div class="star">
           <%= form_for :rating, url: movie_rate_path(movie.id), remote: true do |f| %>
             <%= f.hidden_field :value, value: value %>
-            <% star_class = movie.rating.present? && movie.rating >= value ? 'star' : 'star-empty' %>
+            <% rating = movie.user_rating %>
+            <% star_class = rating.present? && rating >= value ? 'star' : 'star-empty' %>
             <button type="submit" class="btn btn-link" aria-label="Rate movie <%= value %> stars">
               <span class="glyphicon glyphicon-<%= star_class %>" aria-hidden="true"></span>
             </button>
@@ -25,7 +26,7 @@
 
       <div class="want-to-watch">
         <%= form_for :want_to_watch, url: movie_toggle_want_to_watch_path(movie.id), remote: true do |f| %>
-          <% check_class = movie.want_to_watch? ? 'check' : 'unchecked' %>
+          <% check_class = movie.user_want_to_watch? ? 'check' : 'unchecked' %>
           <button type="submit" class="btn btn-link" aria-label="Want to watch">
             <span class="glyphicon glyphicon-<%= check_class %>" aria-hidden="true"></span> Want to watch
           </button>

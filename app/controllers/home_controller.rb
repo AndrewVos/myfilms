@@ -1,9 +1,13 @@
 class HomeController < ApplicationController
   def index
-    @popular = TheMovieDb
+    tmdb_ids = TheMovieDb
       .get_cached('/discover/movie?sort_by=popularity.desc')['results']
+      .map {|m| m['id']}
 
-    @popular = Movie
-      .from_list_of_movie_db_movies(current_user, @popular)
+    Movie.update_movies(tmdb_ids)
+
+    @movies = Movie
+      .where(tmdb_id: tmdb_ids)
+      .with_user_data(current_user)
   end
 end
