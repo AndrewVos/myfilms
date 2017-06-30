@@ -63,7 +63,7 @@
           <div class="search">
             <%= form_with url: search_movies_path, method: :GET, local: true do |f| %>
               <div class="input-group">
-                <%= f.text_field :q, value: params[:q], class: 'form-control', placeholder: 'Search for movies...' %>
+                <%= f.text_field :q, value: params[:q], class: 'form-control', placeholder: 'Search for movies...', required: true %>
                 <span class="input-group-btn">
                   <%= f.submit 'Search', class: 'btn btn-default' %>
                 </span>
