@@ -81,10 +81,15 @@ class Movie < ApplicationRecord
   end
 
   def self.discover(user)
-    joins("LEFT OUTER JOIN ratings ON ratings.movie_id = movies.id AND ratings.user_id = #{user.id}")
-      .joins("LEFT OUTER JOIN want_to_watches ON want_to_watches.movie_id = movies.id AND want_to_watches.user_id = #{user.id}")
-      .where('ratings.id IS NULL')
-      .where('want_to_watches.id IS NULL')
+    discover = if user.present?
+                 joins("LEFT OUTER JOIN ratings ON ratings.movie_id = movies.id AND ratings.user_id = #{user.id}")
+                   .joins("LEFT OUTER JOIN want_to_watches ON want_to_watches.movie_id = movies.id AND want_to_watches.user_id = #{user.id}")
+                   .where('ratings.id IS NULL')
+                   .where('want_to_watches.id IS NULL')
+               else
+                 all
+               end
+                 .where(discoverable: true)
   end
 
   def self.watched(user)
