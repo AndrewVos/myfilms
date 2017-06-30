@@ -26,6 +26,7 @@ class RetrieveDiscoverablesJob < ApplicationJob
         movie.update!(discoverable: true)
       end
 
+      sleep 10
       puts ' done'
     end
   end
