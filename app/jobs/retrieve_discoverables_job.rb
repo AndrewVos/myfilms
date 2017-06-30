@@ -22,7 +22,7 @@ class RetrieveDiscoverablesJob < ApplicationJob
 
       movies.each_with_index do |movie, index|
         movie.retrieve_extra_details!
-        next unless movie.youtube_trailer_id.present?
+        next if movie.youtube_trailer_id.blank?
         movie.update!(discoverable: true)
       end
 
