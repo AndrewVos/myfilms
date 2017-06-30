@@ -1,0 +1,12 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <% movies.each do |movie| %>
+        <%= render 'movies/movie', movie: movie %>
+      <% end %>
+    </div>
+    <div class="col-xs-12">
+      <%= paginate @movies %>
+    </div>
+  </div>
+</div>
