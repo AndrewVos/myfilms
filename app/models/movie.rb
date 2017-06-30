@@ -74,7 +74,7 @@ class Movie < ApplicationRecord
 
   def year
     if release_date.present?
-      Date.parse(release_date).year
+      release_date.year
     else
       nil
     end
