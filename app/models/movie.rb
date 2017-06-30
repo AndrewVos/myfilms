@@ -15,12 +15,50 @@ class Movie < ApplicationRecord
     end
   end
 
+  def with_user_data!(user)
+    @user_rating = user
+      .ratings
+      .where(movie: self)
+      .first
+      .try(:value)
+
+    @user_want_to_watch = user
+      .want_to_watches
+      .where(movie: self)
+      .any?
+  end
+
+  def retrieve_extra_details!
+    details = TheMovieDb.get_cached("/movie/#{tmdb_id}")
+    self.update!(
+      details.except(
+        'id',
+        'belongs_to_collection',
+        'homepage',
+        'production_companies',
+        'production_countries'
+      )
+    )
+  end
+
+  def genre_names
+    return [] unless genres.present?
+
+    genres.map {|g| g['name']}
+  end
+
+  def language_names
+    return [] unless spoken_languages.present?
+
+    spoken_languages.map {|l| l['name']}
+  end
+
   def user_rating
-    attributes['user_rating']
+    @user_rating || attributes['user_rating']
   end
 
   def user_want_to_watch?
-    attributes['user_want_to_watch']
+    @user_want_to_watch || attributes['user_want_to_watch']
   end
 
   def self.watched(user)
@@ -52,6 +90,10 @@ class Movie < ApplicationRecord
       .where('ratings.value > 3')
       .sample(1)
       .first
+  end
+
+  def imdb_url
+    "http://www.imdb.com/title/#{imdb_id}/"
   end
 
   def poster_url

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :movies, only: %i() do
+  resources :movies, only: %i(show) do
     controller :ratings do
       post :rate, action: :rate
     end

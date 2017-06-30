@@ -1,0 +1,75 @@
+<% title @movie.title_with_year %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="single-movie">
+        <div class="movie">
+          <h1 class="title">
+            <%= @movie.title_with_year %>
+            <small>
+              <%= @movie.tagline %>
+            </small>
+          </h1>
+          <div class="poster">
+            <%= image_tag @movie.large_poster_url, alt: @movie.title %>
+          </div>
+
+          <div class="details">
+            <div class="detail imdb-url">
+              <div class="detail-value">
+                <% if @movie.imdb_url.present? %>
+                  <%= link_to @movie.imdb_url, @movie.imdb_url %>
+                <% end %>
+              </div>
+            </div>
+            <div class="detail overview">
+              <div class="detail-title">
+                Overview
+              </div>
+              <div class="detail-value">
+                <%= @movie.overview %>
+              </div>
+            </div>
+            <div class="detail genres">
+              <div class="detail-title">
+                Genres
+              </div>
+              <div class="detail-value">
+                <%= @movie.genre_names.join(', ') %>
+              </div>
+            </div>
+            <div class="detail runtime">
+              <div class="detail-title">
+                Runtime
+              </div>
+              <div class="detail-value">
+                <%= @movie.runtime %> minutes
+              </div>
+            </div>
+            <div class="detail languages">
+              <div class="detail-title">
+                Languages
+              </div>
+              <div class="detail-value">
+                <%= @movie.language_names.join(', ') %>
+              </div>
+            </div>
+            <div class="detail status">
+              <div class="detail-title">
+                Status
+              </div>
+              <div class="detail-value">
+                <%= @movie.status %>
+              </div>
+            </div>
+          </div>
+
+          <% if user_signed_in? %>
+            <%= render 'movies/actions', movie: @movie %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

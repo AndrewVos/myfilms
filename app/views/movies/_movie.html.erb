@@ -1,37 +1,17 @@
 <div class="movie" data-id="<%= movie.id %>">
   <div class="title">
     <span>
-      <%= movie.title_with_year %>
+      <%= link_to movie_path(movie) do %>
+        <%= movie.title_with_year %>
+      <% end %>
     </span>
   </div>
 
   <div class="poster">
-    <%= image_tag movie.large_poster_url %>
+    <%= link_to movie_path(movie) do %>
+      <%= image_tag movie.large_poster_url %>
+    <% end %>
   </div>
 
-  <% if current_user.present? %>
-    <div class="actions">
-      <% 1.upto(5) do |value| %>
-        <div class="star">
-          <%= form_for :rating, url: movie_rate_path(movie.id), remote: true do |f| %>
-            <%= f.hidden_field :value, value: value %>
-            <% rating = movie.user_rating %>
-            <% star_class = rating.present? && rating >= value ? 'star' : 'star-empty' %>
-            <button type="submit" class="btn btn-link" aria-label="Rate movie <%= value %> stars">
-              <span class="glyphicon glyphicon-<%= star_class %>" aria-hidden="true"></span>
-            </button>
-          <% end %>
-        </div>
-      <% end %>
-
-      <div class="want-to-watch">
-        <%= form_for :want_to_watch, url: movie_toggle_want_to_watch_path(movie.id), remote: true do |f| %>
-          <% check_class = movie.user_want_to_watch? ? 'check' : 'unchecked' %>
-          <button type="submit" class="btn btn-link" aria-label="Want to watch">
-            <span class="glyphicon glyphicon-<%= check_class %>" aria-hidden="true"></span> Want to watch
-          </button>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
+  <%= render 'movies/actions', movie: movie %>
 </div>
