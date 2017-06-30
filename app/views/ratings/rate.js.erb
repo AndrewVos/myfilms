@@ -1,9 +1,9 @@
 (function () {
   var movieId = '<%= @movie_id %>'
   var value = '<%= @value %>'
-  var $movie = $('.movie[data-id="' + movieId + '"]')
-  var $glyphs = $movie.find('.star button span.glyphicon')
-  var $wantToWatch = $movie.find('.want-to-watch')
+  var $actions = $('.actions[data-id="' + movieId + '"]')
+  var $glyphs = $actions.find('.star button span.glyphicon')
+  var $wantToWatch = $actions.find('.want-to-watch')
 
   for (var i = 0; i < $glyphs.length; i++) {
     var $glyph = $($glyphs[i])

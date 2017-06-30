@@ -1,5 +1,5 @@
 <% if current_user.present? %>
-  <div class="actions">
+  <div class="actions" data-id="<%= movie.id %>">
     <% 1.upto(5) do |value| %>
       <div class="star">
         <%= form_for :rating, url: movie_rate_path(movie.id), remote: true do |f| %>

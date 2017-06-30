@@ -1,0 +1,14 @@
+<% title @movie.title %>
+
+<div class="discovery">
+  <%= render 'movies/video', youtube_video_id: @movie.youtube_trailer_id, next_page_path: @next_discovery_path %>
+  <%= render 'movies/actions', movie: @movie %>
+  <div class="navigation">
+    <div class="previous">
+      <%= link_to '<<- previous', @previous_discovery_path %>
+    </div>
+    <div class="next">
+      <%= link_to 'next ->>', @next_discovery_path %>
+    </div>
+  </div>
+</div>

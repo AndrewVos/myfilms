@@ -60,48 +60,6 @@ class Movie < ApplicationRecord
     best_match
   end
 
-  def self.next_discovery(user, page: 1, index: 0)
-    previous_page = Integer(page)
-    previous_index = Integer(index || 0)
-
-    page = previous_page
-
-    loop do
-      tmdb_response ||= TheMovieDb.get_cached(
-        '/discover/movie?',
-        query: {
-          sort_by: 'popularity.desc',
-          page: [page, Paginatable::MAX_PAGES].min,
-        }
-      )
-
-      Movie.create_from_tmdb_results(
-        tmdb_response['results']
-      )
-
-      tmdb_ids = tmdb_response['results'].map { |r| r['id'] }
-
-      movies = Movie.where(tmdb_id: tmdb_ids)
-      movies = movies.with_user_data(user) if user.present?
-
-      movies.each_with_index do |movie, index|
-        next if page == previous_page && index <= previous_index
-
-        next if movie.user_rating.present?
-        next if movie.user_want_to_watch.present?
-        next unless movie.youtube_trailer_id.present?
-
-        return {
-          movie: movie,
-          page: page,
-          index: index
-        }
-      end
-
-      page += 1
-    end
-  end
-
   def genre_names
     return [] unless genres.present?
 
@@ -120,6 +78,13 @@ class Movie < ApplicationRecord
 
   def user_want_to_watch?
     @user_want_to_watch || attributes['user_want_to_watch']
+  end
+
+  def self.discover(user)
+    joins("LEFT OUTER JOIN ratings ON ratings.movie_id = movies.id AND ratings.user_id = #{user.id}")
+      .joins("LEFT OUTER JOIN want_to_watches ON want_to_watches.movie_id = movies.id AND want_to_watches.user_id = #{user.id}")
+      .where('ratings.id IS NULL')
+      .where('want_to_watches.id IS NULL')
   end
 
   def self.watched(user)
@@ -144,13 +109,6 @@ class Movie < ApplicationRecord
       "LEFT OUTER JOIN want_to_watches ON want_to_watches.movie_id = movies.id AND want_to_watches.user_id = #{user.id}"
     )
     .select('movies.*, ratings.value AS user_rating, want_to_watches.id > 0 AS user_want_to_watch')
-  end
-
-  def self.random_high_rated(user)
-    watched(user)
-      .where('ratings.value > 3')
-      .sample(1)
-      .first
   end
 
   def imdb_url

@@ -31,30 +31,4 @@ class MoviesController < ApplicationController
       @movies = []
     end
   end
-
-  def discover
-    discovery = Movie.next_discovery(current_user)
-    redirect_to movie_discovery_path(
-      discovery[:movie],
-      page: discovery[:page]
-    )
-  end
-
-  def discovery
-    @movie = Movie.find(params[:movie_id])
-    @movie.retrieve_extra_details!
-    @movie.with_user_data!(current_user) if current_user.present?
-
-    next_discovery = Movie.next_discovery(
-      current_user,
-      page: params[:page],
-      index: params[:index]
-    )
-
-    @next_discovery_path = movie_discovery_path(
-      next_discovery[:movie],
-      page: next_discovery[:page],
-      index: next_discovery[:index],
-    )
-  end
 end

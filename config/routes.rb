@@ -10,13 +10,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :discoveries, only: %i(show)
+
   resources :movies, only: %i(show) do
     controller :ratings do
       post :rate, action: :rate
     end
-
-    get :discovery
-    get :discover, on: :collection
 
     get :search, on: :collection
 

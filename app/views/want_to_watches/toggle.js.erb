@@ -1,7 +1,7 @@
 (function () {
   var movieId = '<%= @movie_id %>'
-  var $movie = $('.movie[data-id="' + movieId + '"]')
-  var $span = $movie.find('.want-to-watch button span')
+  var $actions = $('.actions[data-id="' + movieId + '"]')
+  var $span = $actions.find('.want-to-watch button span')
   $span.toggleClass('glyphicon-check')
   $span.toggleClass('glyphicon-unchecked')
 })()

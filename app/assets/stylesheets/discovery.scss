@@ -1,0 +1,26 @@
+.discovery {
+  position: fixed;
+  z-index: 999;
+  top: 50px;
+  left: 0;
+  right: 0;
+  bottom: 50px;
+
+  .movie {
+    height: 100%;
+  }
+
+  .navigation {
+    margin-left: 20px;
+    margin-right: 20px;
+
+    font-size: 20px;
+
+    .previous {
+      float: left;
+    }
+    .next {
+      float: right;
+    }
+  }
+}
