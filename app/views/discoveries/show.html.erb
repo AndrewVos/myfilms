@@ -1,7 +1,9 @@
 <% title @movie.title %>
 
 <div class="discovery">
-  <%= render 'movies/video', youtube_video_id: @movie.youtube_trailer_id, next_page_path: @next_discovery_path %>
+  <div class="video">
+    <%= render 'movies/video', youtube_video_id: @movie.youtube_trailer_id, next_page_path: @next_discovery_path %>
+  </div>
   <%= render 'movies/actions', movie: @movie %>
   <div class="navigation">
     <div class="previous">
