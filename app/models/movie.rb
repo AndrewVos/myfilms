@@ -29,7 +29,11 @@ class Movie < ApplicationRecord
   end
 
   def retrieve_extra_details!
-    details = TheMovieDb.get_cached("/movie/#{tmdb_id}")
+    details = TheMovieDb.get_cached(
+      "/movie/#{tmdb_id}",
+      query: { append_to_response: 'videos' }
+    )
+
     self.update!(
       details.except(
         'id',
@@ -37,8 +41,23 @@ class Movie < ApplicationRecord
         'homepage',
         'production_companies',
         'production_countries'
-      )
+      ).merge(videos: details['videos']['results'])
     )
+  end
+
+  def youtube_trailer_id
+    return nil unless videos.present?
+
+    best_match = nil
+
+    videos.each do |video|
+      if video['site'] == 'YouTube' && video['type'] == 'Trailer'
+        best_match = video['key']
+        return best_match if video['name'].downcase.include?('official')
+      end
+    end
+
+    best_match
   end
 
   def genre_names

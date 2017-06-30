@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170630095037) do
+ActiveRecord::Schema.define(version: 20170630121819) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20170630095037) do
     t.json "spoken_languages"
     t.string "status"
     t.string "tagline"
+    t.json "videos"
   end
 
   create_table "ratings", force: :cascade do |t|

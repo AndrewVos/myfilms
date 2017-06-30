@@ -15,6 +15,15 @@
             <%= image_tag @movie.large_poster_url, alt: @movie.title %>
           </div>
 
+          <% if @movie.youtube_trailer_id.present? %>
+            <object width="640" height="360">
+              <param name="movie" value="http://www.youtube.com/embed/<%= @movie.youtube_trailer_id %>?html5=1&amp;rel=0&amp;hl=en_US&amp;version=3"/>
+              <param name="allowFullScreen" value="true"/>
+              <param name="allowscriptaccess" value="always"/>
+              <embed width="640" height="360" src="http://www.youtube.com/embed/<%= @movie.youtube_trailer_id %>?html5=1&amp;rel=0&amp;hl=en_US&amp;version=3" class="youtube-player" type="text/html" allowscriptaccess="always" allowfullscreen="true"/>
+            </object>
+          <% end %>
+
           <div class="details">
             <div class="detail imdb-url">
               <div class="detail-value">
