@@ -1,3 +1,5 @@
+$font-family-sans-serif: 'Roboto', sans-serif;
+
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "devise_bootstrap_views";
@@ -5,4 +7,5 @@
 @import "movies";
 @import "actions";
 @import "discovery";
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
