@@ -9,7 +9,11 @@ class RecommendationsController < ApplicationController
 
     @movies = Movie.where(tmdb_id: tmdb_ids)
     @movies = @movies.with_user_data(current_user) if current_user.present?
-    @movies = Paginatable.new(params, tmdb_response, @movies)
+    @movies = Paginatable.new(
+      current_page: params[:page],
+      total_pages: tmdb_response['total_pages'],
+      items: @movies
+    )
   end
 
   private

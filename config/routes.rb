@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     end
 
     collection do
+      get :search
       resources :recommendations, only: %i(index)
     end
 

@@ -8,9 +8,9 @@ class Paginatable
 
   delegate :each, to: :items
 
-  def initialize(params, tmdb_response, items)
-    @current_page = ([Integer(params[:page] || 1), MAX_PAGES]).min
-    @total_pages = [tmdb_response['total_pages'], 1000].min
+  def initialize(current_page:, total_pages:, items:)
+    @current_page = ([Integer(current_page || 1), MAX_PAGES]).min
+    @total_pages = [Integer(total_pages), 1000].min
     @limit_value = 20
     @items = items
   end
