@@ -1,0 +1,7 @@
+(function () {
+  var movieId = '<%= @movie_id %>'
+  var $actions = $('.actions[data-id="' + movieId + '"]')
+  var $span = $actions.find('.dont-want-to-watch button span')
+  $span.toggleClass('glyphicon-check')
+  $span.toggleClass('glyphicon-unchecked')
+})()

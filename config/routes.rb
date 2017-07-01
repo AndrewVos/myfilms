@@ -22,5 +22,9 @@ Rails.application.routes.draw do
     controller :want_to_watches do
       post :toggle_want_to_watch, action: :toggle
     end
+
+    controller :dont_want_to_watches do
+      post :toggle_dont_want_to_watch, action: :toggle
+    end
   end
 end

@@ -7,6 +7,8 @@ class DiscoveriesController < ApplicationController
       .limit(1)
       .first
 
+    @movie.with_user_data!(current_user) if current_user.present?
+
     @next_discovery_path = discovery_path(index + 1)
   end
 end

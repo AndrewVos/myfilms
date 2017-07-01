@@ -1,25 +1,39 @@
 <% if current_user.present? %>
   <div class="actions" data-id="<%= movie.id %>">
-    <% 1.upto(5) do |value| %>
-      <div class="star">
-        <%= form_for :rating, url: movie_rate_path(movie.id), remote: true do |f| %>
-          <%= f.hidden_field :value, value: value %>
-          <% rating = movie.user_rating %>
-          <% star_class = rating.present? && rating >= value ? 'star' : 'star-empty' %>
-          <button type="submit" class="btn btn-link" title="Rate movie <%= value %> stars" aria-label="Rate movie <%= value %> stars">
-            <span class="glyphicon glyphicon-<%= star_class %>" aria-hidden="true"></span>
+    <div class="stars">
+      <% 1.upto(5) do |value| %>
+        <div class="star">
+          <%= form_for :rating, url: movie_rate_path(movie.id), remote: true do |f| %>
+            <%= f.hidden_field :value, value: value %>
+            <% rating = movie.user_rating %>
+            <% star_class = rating.present? && rating >= value ? 'star' : 'star-empty' %>
+            <button type="submit" class="btn btn-link" title="Rate movie <%= value %> stars" aria-label="Rate movie <%= value %> stars">
+              <span class="glyphicon glyphicon-<%= star_class %>" aria-hidden="true"></span>
+            </button>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="want-container">
+      <div class="want-to-watch">
+        <%= form_for :want_to_watch, url: movie_toggle_want_to_watch_path(movie.id), remote: true do |f| %>
+          <% check_class = movie.user_want_to_watch? ? 'check' : 'unchecked' %>
+          <button type="submit" class="btn btn-link" aria-label="Want to watch">
+            want to watch
+            <span class="glyphicon glyphicon-<%= check_class %>" aria-hidden="true"></span>
           </button>
         <% end %>
       </div>
-    <% end %>
-
-    <div class="want-to-watch">
-      <%= form_for :want_to_watch, url: movie_toggle_want_to_watch_path(movie.id), remote: true do |f| %>
-        <% check_class = movie.user_want_to_watch? ? 'check' : 'unchecked' %>
-        <button type="submit" class="btn btn-link" aria-label="Want to watch">
-          <span class="glyphicon glyphicon-<%= check_class %>" aria-hidden="true"></span> Want to watch
-        </button>
-      <% end %>
+      <div class="dont-want-to-watch">
+        <%= form_for :dont_want_to_watch, url: movie_toggle_dont_want_to_watch_path(movie.id), remote: true do |f| %>
+          <% check_class = movie.user_dont_want_to_watch? ? 'check' : 'unchecked' %>
+          <button type="submit" class="btn btn-link" aria-label="Don't want to watch">
+            don't want to watch
+            <span class="glyphicon glyphicon-<%= check_class %>" aria-hidden="true"></span>
+          </button>
+        <% end %>
+      </div>
     </div>
   </div>
 <% end %>

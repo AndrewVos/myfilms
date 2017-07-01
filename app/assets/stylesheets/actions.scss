@@ -1,27 +1,29 @@
 .actions {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  width: 250px;
+  height: 50px;
+  margin: 0;
 
-  .star {
-    display: inline;
+  .stars {
+    float: left;
+    margin-top: 12px;
 
-    form {
+    .star {
       display: inline;
 
-      button {
-        padding: 0;
+      form {
+        display: inline;
+
+        button {
+          padding: 0;
+        }
       }
     }
   }
 
-  .want-to-watch {
-    text-align: center;
-    display: inline;
+  .want-container {
     float: right;
-    form {
-      display: inline;
+    text-align: right;
 
+    form {
       button {
         padding: 0;
       }
