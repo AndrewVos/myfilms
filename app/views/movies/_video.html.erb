@@ -23,8 +23,8 @@
     }
 
     youtubePlayer = new YT.Player('youtube-player', {
-      height: '100%',
-      width: '100%',
+      height: '<%= height %>',
+      width: '<%= width %>',
       videoId: '<%= youtube_video_id %>',
       events: {
         onReady: onPlayerReady,
@@ -35,20 +35,20 @@
   }
 
   function onError(event) {
-    navigateToNextDiscovery()
+    navigateToNextPage()
   }
 
   function onPlayerReady(event) {
-    event.target.playVideo()
+    <% if autoplay %>
+      event.target.playVideo()
+    <% end %>
   }
 
   function onPlayerStateChange(event) {
     if(event.data === 0) {
-      navigateToNextDiscovery()
+      <% if next_page_path.present? %>
+        window.location = '<%= next_page_path.html_safe %>'
+      <% end %>
     }
-  }
-
-  function navigateToNextDiscovery() {
-    window.location = '<%= next_page_path.html_safe %>'
   }
 </script>

@@ -6,7 +6,7 @@
           <%= f.hidden_field :value, value: value %>
           <% rating = movie.user_rating %>
           <% star_class = rating.present? && rating >= value ? 'star' : 'star-empty' %>
-          <button type="submit" class="btn btn-link" aria-label="Rate movie <%= value %> stars">
+          <button type="submit" class="btn btn-link" title="Rate movie <%= value %> stars" aria-label="Rate movie <%= value %> stars">
             <span class="glyphicon glyphicon-<%= star_class %>" aria-hidden="true"></span>
           </button>
         <% end %>

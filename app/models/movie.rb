@@ -120,6 +120,11 @@ class Movie < ApplicationRecord
     "http://www.imdb.com/title/#{imdb_id}/"
   end
 
+  def backdrop_url
+    return 'http://placehold.it/92x138' unless backdrop_path.present?
+    "https://image.tmdb.org/t/p/w1280#{backdrop_path}"
+  end
+
   def poster_url
     return 'http://placehold.it/92x138' unless poster_path.present?
     "https://image.tmdb.org/t/p/w92#{poster_path}"

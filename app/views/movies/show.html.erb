@@ -1,82 +1,76 @@
 <% title @movie.title_with_year %>
 
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="single-movie">
-        <div class="movie">
-          <h1 class="title">
-            <%= @movie.title_with_year %>
-            <small>
-              <%= @movie.tagline %>
-            </small>
-          </h1>
-          <div class="poster">
-            <%= image_tag @movie.large_poster_url, alt: @movie.title %>
+  <div class="movie row">
+    <div class="col-xs-12 col-sm-6">
+      <% if @movie.youtube_trailer_id.present? %>
+        <div class="trailer">
+          <%= render 'movies/video', youtube_video_id: @movie.youtube_trailer_id, width: '100%', height: '100%', next_page_path: nil, autoplay: false %>
+        </div>
+      <% else %>
+        <div class="movie-poster">
+          <%= image_tag @movie.large_poster_url, alt: @movie.title %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="col-xs-12 col-sm-6">
+      <div class="movie-title">
+        <%= @movie.title_with_year %>
+      </div>
+      <div class="movie-tagline">
+        <%= @movie.tagline %>
+      </div>
+      <% if user_signed_in? %>
+        <%= render 'movies/actions', movie: @movie %>
+      <% end %>
+      <div class="movie-details">
+        <div class="movie-detail imdb-url">
+          <div class="detail-value">
+            <% if @movie.imdb_url.present? %>
+              <%= link_to @movie.imdb_url, @movie.imdb_url %>
+            <% end %>
           </div>
-
-          <% if @movie.youtube_trailer_id.present? %>
-            <object width="640" height="360">
-              <param name="movie" value="https://www.youtube.com/embed/<%= @movie.youtube_trailer_id %>?html5=1&amp;rel=0&amp;hl=en_US&amp;version=3"/>
-              <param name="allowFullScreen" value="true"/>
-              <param name="allowscriptaccess" value="always"/>
-              <embed width="640" height="360" src="https://www.youtube.com/embed/<%= @movie.youtube_trailer_id %>?html5=1&amp;rel=0&amp;hl=en_US&amp;version=3" class="youtube-player" type="text/html" allowscriptaccess="always" allowfullscreen="true"/>
-            </object>
-          <% end %>
-
-          <div class="details">
-            <div class="detail imdb-url">
-              <div class="detail-value">
-                <% if @movie.imdb_url.present? %>
-                  <%= link_to @movie.imdb_url, @movie.imdb_url %>
-                <% end %>
-              </div>
-            </div>
-            <div class="detail overview">
-              <div class="detail-title">
-                Overview
-              </div>
-              <div class="detail-value">
-                <%= @movie.overview %>
-              </div>
-            </div>
-            <div class="detail genres">
-              <div class="detail-title">
-                Genres
-              </div>
-              <div class="detail-value">
-                <%= @movie.genre_names.join(', ') %>
-              </div>
-            </div>
-            <div class="detail runtime">
-              <div class="detail-title">
-                Runtime
-              </div>
-              <div class="detail-value">
-                <%= @movie.runtime %> minutes
-              </div>
-            </div>
-            <div class="detail languages">
-              <div class="detail-title">
-                Languages
-              </div>
-              <div class="detail-value">
-                <%= @movie.language_names.join(', ') %>
-              </div>
-            </div>
-            <div class="detail status">
-              <div class="detail-title">
-                Status
-              </div>
-              <div class="detail-value">
-                <%= @movie.status %>
-              </div>
-            </div>
+        </div>
+        <div class="movie-detail overview">
+          <div class="movie-detail-title">
+            Overview
           </div>
-
-          <% if user_signed_in? %>
-            <%= render 'movies/actions', movie: @movie %>
-          <% end %>
+          <div class="detail-value">
+            <%= @movie.overview %>
+          </div>
+        </div>
+        <div class="movie-detail genres">
+          <div class="movie-detail-title">
+            Genres
+          </div>
+          <div class="detail-value">
+            <%= @movie.genre_names.join(', ') %>
+          </div>
+        </div>
+        <div class="movie-detail runtime">
+          <div class="movie-detail-title">
+            Runtime
+          </div>
+          <div class="detail-value">
+            <%= @movie.runtime %> minutes
+          </div>
+        </div>
+        <div class="movie-detail languages">
+          <div class="movie-detail-title">
+            Languages
+          </div>
+          <div class="detail-value">
+            <%= @movie.language_names.join(', ') %>
+          </div>
+        </div>
+        <div class="movie-detail status">
+          <div class="movie-detail-title">
+            Status
+          </div>
+          <div class="detail-value">
+            <%= @movie.status %>
+          </div>
         </div>
       </div>
     </div>

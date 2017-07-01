@@ -3,7 +3,23 @@
     <div class="movies">
       <% movies.each do |movie| %>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <%= render 'movies/movie', movie: movie %>
+          <div class="movie-container">
+            <div class="movie-title">
+              <span>
+                <%= link_to movie_path(movie), title: movie.title do %>
+                  <%= movie.title_with_year %>
+                <% end %>
+              </span>
+            </div>
+
+            <div class="movie-poster">
+              <%= link_to movie_path(movie) do %>
+                <%= image_tag movie.large_poster_url, alt: movie.title %>
+              <% end %>
+            </div>
+
+            <%= render 'movies/actions', movie: movie %>
+          </div>
         </div>
       <% end %>
     </div>

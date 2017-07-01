@@ -1,21 +1,24 @@
-.movie {
-  .title {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    padding: 5px;
-    font-size: 20px;
-  }
+.movie-title {
+  font-size: 20px;
+}
 
-  .detail {
-    .detail-title {
+.movie-poster {
+  height: 450px;
+  img {
+    max-width: 100%;
+  }
+}
+
+.movie-details {
+  .movie-detail {
+    .movie-detail-title {
       font-weight: bold;
     }
   }
 }
 
 .movies {
-  .movie {
+  .movie-container {
     border: 1px solid #ddd;
     border-radius: 3px;
     max-width: 300px;
@@ -23,11 +26,40 @@
     margin-left: auto;
     margin-right: auto;
 
-    .poster {
-      height: 450px;
-      img {
-        max-width: 100%;
-      }
+    .movie-title {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+    .actions {
+      margin-left: 20px;
+      margin-right: 20px;
     }
   }
+}
+
+.movie {
+  .trailer {
+    height: 300px;
+    min-height: 300px;
+  }
+
+  @media (min-width: $screen-sm-min) {
+    .trailer {
+      height: 400px;
+      min-height: 400px;
+    }
+  }
+
+  @media (min-width: $screen-md-min) {
+    .trailer {
+      height: 500px;
+      min-height: 500px;
+    }
+  }
+
+  @media (min-width: $screen-lg-min) { }
 }

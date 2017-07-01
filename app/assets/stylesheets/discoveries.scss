@@ -10,17 +10,20 @@
     height: 90%;
   }
 
-  .navigation {
+  .bottom-row {
     margin-left: 20px;
     margin-right: 20px;
 
-    font-size: 20px;
+    .navigation {
 
-    .previous {
-      float: left;
-    }
-    .next {
-      float: right;
+      font-size: 20px;
+
+      .previous {
+        float: left;
+      }
+      .next {
+        float: right;
+      }
     }
   }
 }
