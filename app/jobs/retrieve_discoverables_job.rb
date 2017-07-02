@@ -2,7 +2,7 @@ class RetrieveDiscoverablesJob < ApplicationJob
   queue_as :default
 
   def perform(*args)
-    1.upto(10) do |page|
+    1.upto(100) do |page|
       print "Retrieving page #{page}..."
       tmdb_response ||= TheMovieDb.get_cached(
         '/discover/movie?',
