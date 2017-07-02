@@ -6,7 +6,7 @@
           <div class="movie-container">
             <div class="movie-title">
               <span>
-                <%= link_to movie_path(movie), title: movie.title do %>
+                <%= link_to movie_path(movie), title: movie.title_with_year do %>
                   <%= movie.title_with_year %>
                 <% end %>
               </span>
@@ -14,7 +14,7 @@
 
             <div class="movie-poster">
               <%= link_to movie_path(movie) do %>
-                <%= image_tag movie.large_poster_url, alt: movie.title %>
+                <%= image_tag movie.large_poster_url, alt: movie.title_with_year %>
               <% end %>
             </div>
 
