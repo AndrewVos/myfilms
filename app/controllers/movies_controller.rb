@@ -61,4 +61,16 @@ class MoviesController < ApplicationController
       @movie = movies.order('random()').limit(1).first
     end
   end
+
+  def rate
+    @movie = Movie.find(params[:movie_id])
+    @value = params[:rating][:value]
+
+    rating = current_user
+      .ratings
+      .find_or_initialize_by(movie: @movie)
+    rating.value = @value
+    rating.save!
+    @movie.with_user_data!(current_user) if current_user.present?
+  end
 end

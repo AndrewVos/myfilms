@@ -1,0 +1,6 @@
+(function () {
+  var movieId = '<%= @movie.id %>'
+  var content = '<%= escape_javascript(render 'movies/actions', movie: @movie) %>'
+  var $actions = $('.actions[data-id="' + movieId + '"]')
+  $actions.replaceWith(content)
+})()

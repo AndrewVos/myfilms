@@ -11,12 +11,9 @@ Rails.application.routes.draw do
   end
 
   resources :movies, only: %i(show) do
-    controller :ratings do
-      post :rate, action: :rate
-    end
-
     get :search, on: :collection
     get :discover, on: :collection
+    post :rate
 
     post :toggle_want_to_watch
   end
