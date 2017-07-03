@@ -42,21 +42,23 @@ class MovieTest < ActiveSupport::TestCase
     refute(all.first.user_want_to_watch?)
   end
 
-  test '.with_user_data includes user dont want to watch' do
-    @user.dont_want_to_watches.create!(movie: @movie)
+  test '.with_user_data includes user_discovered?' do
+    @user
+      .discovers
+      .create!(movie: @movie)
 
     all = Movie.all.with_user_data(@user)
 
-    assert(all.first.user_dont_want_to_watch?)
+    assert(all.first.user_discovered?)
   end
 
-  test '.with_user_data does not include other users dont want to watch' do
+  test '.with_user_data does not include other user_discovered?' do
     User
       .create!(email: 'other@test.com', password: 'password')
-      .dont_want_to_watches.create!(movie: @movie)
+      .discovers.create!(movie: @movie)
 
     all = Movie.all.with_user_data(@user)
 
-    refute(all.first.user_dont_want_to_watch?)
+    refute(all.first.user_discovered?)
   end
 end

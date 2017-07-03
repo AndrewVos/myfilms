@@ -133,7 +133,7 @@ class Movie < ApplicationRecord
       .select('movies.*, ratings.value AS user_rating, want_to_watches.id > 0 AS user_want_to_watch, discovers.id > 0 AS user_discovered')
   end
 
-  def watched!(user)
+  def discovered!(user)
     user.discovers.create!(
       movie: self
     )

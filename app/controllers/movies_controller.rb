@@ -55,8 +55,8 @@ class MoviesController < ApplicationController
 
     if user_signed_in?
       @movie = movies.limit(1).first
-      @movie.with_user_data!(current_user) if current_user.present?
-      @movie.watched!(current_user) if current_user.present?
+      @movie.with_user_data!(current_user)
+      @movie.discovered!(current_user)
     else
       @movie = movies.order('random()').limit(1).first
     end
