@@ -1,16 +1,15 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="movies">
+    <div class="col-xs-12 movies">
       <% movies.each do |movie| %>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <div class="movie-container">
+        <div class="movie-container">
+          <div class="movie-poster">
             <%= link_to movie_path(movie) do %>
-            <div class="movie-poster" style="background-image: url(<%= movie.large_poster_url %>)">
-            </div>
+              <%= image_tag movie.large_poster_url, title: movie.title_with_year %>
             <% end %>
-
-            <%= render 'movies/actions', movie: movie %>
           </div>
+
+          <%= render 'movies/actions', movie: movie %>
         </div>
       <% end %>
     </div>
