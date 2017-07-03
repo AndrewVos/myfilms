@@ -31,4 +31,34 @@ class MoviesController < ApplicationController
       @movies = []
     end
   end
+
+  def toggle_want_to_watch
+    @movie = Movie.find(params[:movie_id])
+
+    want_to_watch = current_user
+      .want_to_watches
+      .find_by(movie: @movie)
+
+    if want_to_watch.present?
+      want_to_watch.destroy!
+    else
+      current_user.want_to_watches.create!(movie: @movie)
+    end
+
+    @movie.with_user_data!(current_user)
+  end
+
+  def discover
+    index = Integer(params[:id] || 0)
+
+    movies = Movie.discover(current_user)
+
+    if user_signed_in?
+      @movie = movies.limit(1).first
+      @movie.with_user_data!(current_user) if current_user.present?
+      @movie.watched!(current_user) if current_user.present?
+    else
+      @movie = movies.order('random()').limit(1).first
+    end
+  end
 end

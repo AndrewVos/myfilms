@@ -6,5 +6,5 @@ class User < ApplicationRecord
 
   has_many :ratings
   has_many :want_to_watches
-  has_many :dont_want_to_watches
+  has_many :discovers
 end

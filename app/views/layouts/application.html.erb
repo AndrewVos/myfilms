@@ -32,8 +32,8 @@
 
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav">
-              <%= active_link_to "Discover", discovery_path(0), wrap_tag: :li, active: /discoveries\/\d/ %>
-              <% if signed_in? %>
+              <%= active_link_to "Discover", discover_movies_path, wrap_tag: :li %>
+              <% if user_signed_in? %>
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My lists <span class="caret"></span></a>
                   <ul class="dropdown-menu">
@@ -47,7 +47,7 @@
             <li>
               <%= link_to 'Contact', 'https://twitter.com/AndrewVos' %>
             </li>
-            <% if signed_in? %>
+            <% if user_signed_in? %>
               <%= active_link_to "Account", edit_user_registration_path, wrap_tag: :li %>
               <%= active_link_to "Sign Out", destroy_user_session_path, wrap_tag: :li, method: :delete %>
             <% else %>

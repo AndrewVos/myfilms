@@ -1,4 +1,4 @@
-class DontWantToWatch < ApplicationRecord
+class Discover < ApplicationRecord
   belongs_to :user
   belongs_to :movie
 end

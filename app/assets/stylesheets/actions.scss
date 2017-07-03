@@ -1,32 +1,36 @@
 .actions {
-  height: 50px;
   margin: 0;
+  text-align: center;
 
   .stars {
-    float: left;
-    margin-top: 12px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    background-color: black;
 
     .star {
       display: inline;
 
       form {
         display: inline;
+      }
 
-        button {
-          padding: 0;
-        }
+      button, a {
+        padding: 0;
+        // http://www.colourlovers.com/palette/4511728/Rainbow_%C3%89toile
+        color: #FF98C6;
       }
     }
   }
 
-  .want-container {
-    float: right;
-    text-align: right;
-
+  .want-to-watch {
     form {
-      button {
-        padding: 0;
-      }
+      display: inline;
+    }
+
+    button, a {
+      width: 100%;
+      border-radius: 0;
     }
   }
 }

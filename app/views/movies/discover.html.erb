@@ -1,0 +1,13 @@
+<% title @movie.title %>
+
+<div class="discover">
+  <div class="video">
+    <%= render 'movies/video', youtube_video_id: @movie.youtube_trailer_id, width: '100%', height: '100%', autoplay: true, next_page_path: discover_movies_path %>
+  </div>
+  <div class="bottom-row">
+    <%= render 'movies/actions', movie: @movie %>
+    <div class="navigation">
+      <%= link_to 'next', discover_movies_path, class: 'btn btn-lg btn-info' %>
+    </div>
+  </div>
+</div>

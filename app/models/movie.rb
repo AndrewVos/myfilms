@@ -1,7 +1,7 @@
 class Movie < ApplicationRecord
   has_many :ratings
   has_many :want_to_watches
-  has_many :dont_want_to_watches
+  has_many :discovers
 
   def self.create_from_tmdb_results(tmdb_results)
     tmdb_results.each do |tmdb_result|
@@ -28,8 +28,8 @@ class Movie < ApplicationRecord
       .where(movie: self)
       .any?
 
-    @user_dont_want_to_watch = user
-      .dont_want_to_watches
+    @user_discovered = user
+      .discovers
       .where(movie: self)
       .any?
 
@@ -88,18 +88,18 @@ class Movie < ApplicationRecord
     @user_want_to_watch || attributes['user_want_to_watch']
   end
 
-  def user_dont_want_to_watch?
-    @user_dont_want_to_watch || attributes['user_dont_want_to_watch']
+  def user_discovered?
+    @user_discovered || attributes['user_discovered']
   end
 
   def self.discover(user)
     discover = if user.present?
                  joins("LEFT OUTER JOIN ratings ON ratings.movie_id = movies.id AND ratings.user_id = #{user.id}")
                    .joins("LEFT OUTER JOIN want_to_watches ON want_to_watches.movie_id = movies.id AND want_to_watches.user_id = #{user.id}")
-                   .joins("LEFT OUTER JOIN dont_want_to_watches ON dont_want_to_watches.movie_id = movies.id AND dont_want_to_watches.user_id = #{user.id}")
+                   .joins("LEFT OUTER JOIN discovers ON discovers.movie_id = movies.id AND discovers.user_id = #{user.id}")
                    .where('ratings.id IS NULL')
                    .where('want_to_watches.id IS NULL')
-                   .where('dont_want_to_watches.id IS NULL')
+                   .where('discovers.id IS NULL')
                else
                  all
                end
@@ -128,9 +128,15 @@ class Movie < ApplicationRecord
       "LEFT OUTER JOIN want_to_watches ON want_to_watches.movie_id = movies.id AND want_to_watches.user_id = #{user.id}"
     )
     .joins(
-      "LEFT OUTER JOIN dont_want_to_watches ON dont_want_to_watches.movie_id = movies.id AND dont_want_to_watches.user_id = #{user.id}"
+      "LEFT OUTER JOIN discovers ON discovers.movie_id = movies.id AND discovers.user_id = #{user.id}"
     )
-      .select('movies.*, ratings.value AS user_rating, want_to_watches.id > 0 AS user_want_to_watch, dont_want_to_watches.id > 0 AS user_dont_want_to_watch')
+      .select('movies.*, ratings.value AS user_rating, want_to_watches.id > 0 AS user_want_to_watch, discovers.id > 0 AS user_discovered')
+  end
+
+  def watched!(user)
+    user.discovers.create!(
+      movie: self
+    )
   end
 
   def imdb_url

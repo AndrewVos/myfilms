@@ -12,6 +12,7 @@
           <%= image_tag @movie.large_poster_url, alt: @movie.title %>
         </div>
       <% end %>
+      <%= render 'movies/actions', movie: @movie %>
     </div>
 
     <div class="col-xs-12 col-sm-6">
@@ -21,9 +22,6 @@
       <div class="movie-tagline">
         <%= @movie.tagline %>
       </div>
-      <% if user_signed_in? %>
-        <%= render 'movies/actions', movie: @movie %>
-      <% end %>
       <div class="movie-details">
         <div class="movie-detail imdb-url">
           <div class="detail-value">

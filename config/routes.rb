@@ -10,21 +10,14 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :discoveries, only: %i(show)
-
   resources :movies, only: %i(show) do
     controller :ratings do
       post :rate, action: :rate
     end
 
     get :search, on: :collection
+    get :discover, on: :collection
 
-    controller :want_to_watches do
-      post :toggle_want_to_watch, action: :toggle
-    end
-
-    controller :dont_want_to_watches do
-      post :toggle_dont_want_to_watch, action: :toggle
-    end
+    post :toggle_want_to_watch
   end
 end
