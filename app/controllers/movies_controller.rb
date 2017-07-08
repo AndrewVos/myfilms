@@ -49,8 +49,6 @@ class MoviesController < ApplicationController
   end
 
   def discover
-    index = Integer(params[:id] || 0)
-
     movies = Movie.discover(current_user)
 
     if user_signed_in?
