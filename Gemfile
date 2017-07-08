@@ -19,6 +19,8 @@ gem 'devise-bootstrap-views'
 
 gem 'httparty'
 
+gem 'rollbar'
+
 gem 'jquery-rails'
 
 gem 'active_link_to'

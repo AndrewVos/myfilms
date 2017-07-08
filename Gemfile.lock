@@ -162,6 +162,8 @@ GEM
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
+    rollbar (2.14.0)
+      multi_json
     ruby_dep (1.5.0)
     rubyzip (1.2.1)
     sass (3.4.24)
@@ -232,6 +234,7 @@ DEPENDENCIES
   pry
   puma (~> 3.7)
   rails (~> 5.1.2)
+  rollbar
   sass-rails (~> 5.0)
   selenium-webdriver
   spring
