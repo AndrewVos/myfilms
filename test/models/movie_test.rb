@@ -3,7 +3,7 @@ require 'test_helper'
 class MovieTest < ActiveSupport::TestCase
   def setup
     @movie = Movie.create!(tmdb_id: 123)
-    @user = User.create!(email: 'test@test.com', password: 'password')
+    @user = User.create!(email: 'test@test.com', password: 'password', username: 'something')
   end
 
   test '.with_user_data includes user rating' do
@@ -16,7 +16,7 @@ class MovieTest < ActiveSupport::TestCase
 
   test '.with_user_data does not include other users ratings' do
     User
-      .create!(email: 'other@test.com', password: 'password')
+      .create!(email: 'other@test.com', password: 'password', username: 'something-else')
       .ratings.create!(movie: @movie, value: 5)
 
     all = Movie.all.with_user_data(@user)
@@ -34,7 +34,7 @@ class MovieTest < ActiveSupport::TestCase
 
   test '.with_user_data does not include other users want to watch' do
     User
-      .create!(email: 'other@test.com', password: 'password')
+      .create!(email: 'other@test.com', password: 'password', username: 'something-else')
       .want_to_watches.create!(movie: @movie)
 
     all = Movie.all.with_user_data(@user)
@@ -54,7 +54,7 @@ class MovieTest < ActiveSupport::TestCase
 
   test '.with_user_data does not include other user_discovered?' do
     User
-      .create!(email: 'other@test.com', password: 'password')
+      .create!(email: 'other@test.com', password: 'password', username: 'something-else')
       .discovers.create!(movie: @movie)
 
     all = Movie.all.with_user_data(@user)
