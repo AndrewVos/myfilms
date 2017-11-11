@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     collection do
       get :watched
       get :want_to_watch
+      get :top_rated
     end
   end
 

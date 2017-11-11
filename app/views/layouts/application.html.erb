@@ -39,6 +39,7 @@
                   <ul class="dropdown-menu">
                     <%= active_link_to "Watched (#{current_user.ratings.count})", watched_lists_path, wrap_tag: :li %>
                     <%= active_link_to "Want to watch (#{current_user.want_to_watches.count})", want_to_watch_lists_path, wrap_tag: :li %>
+                    <%= active_link_to "Top Rated", top_rated_lists_path, wrap_tag: :li %>
                   </ul>
                 </li>
               <% end %>

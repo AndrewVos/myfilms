@@ -120,6 +120,11 @@ class Movie < ApplicationRecord
       .with_user_data(user)
   end
 
+  def self.top_rated(user)
+    watched(user)
+      .where('ratings.value > ?', 3)
+  end
+
   def self.with_user_data(user)
     joins(
       "LEFT OUTER JOIN ratings ON ratings.movie_id = movies.id AND ratings.user_id = #{user.id}"

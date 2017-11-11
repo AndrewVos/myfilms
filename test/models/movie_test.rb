@@ -61,4 +61,22 @@ class MovieTest < ActiveSupport::TestCase
 
     refute(all.first.user_discovered?)
   end
+
+  test '.top_rated includes only top rated movies' do
+    movie1 = Movie.create!(tmdb_id: 123)
+    movie2 = Movie.create!(tmdb_id: 456)
+
+    @user
+      .ratings
+      .create!(movie: movie1, value: 1)
+
+    @user
+      .ratings
+      .create!(movie: movie2, value: 4)
+
+    top_rated = Movie.top_rated(@user).to_a
+
+    assert_equal(1, top_rated.size)
+    assert_equal(movie2, top_rated.first)
+  end
 end
