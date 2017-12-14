@@ -7,7 +7,7 @@
   <div class="bottom-row">
     <%= render 'movies/actions', movie: @movie %>
     <div class="navigation">
-      <%= link_to 'next', discover_movies_path, class: 'btn btn-lg btn-info' %>
+      <%= link_to 'next', discover_movies_path, class: 'btn btn-lg btn-info', data: { turbolinks: false } %>
     </div>
   </div>
 </div>
