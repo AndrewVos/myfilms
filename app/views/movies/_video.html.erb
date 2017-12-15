@@ -26,6 +26,11 @@
       height: '<%= height %>',
       width: '<%= width %>',
       videoId: '<%= youtube_video_id %>',
+      playerVars: {
+        modestbranding: 1, // Disable the youtube logo
+        iv_load_policy: 3, // Disable annotations
+        rel: 0 // Disable related videos
+      },
       events: {
         onReady: onPlayerReady,
         onStateChange: onPlayerStateChange,
