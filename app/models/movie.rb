@@ -42,8 +42,6 @@ class Movie < ApplicationRecord
       query: { append_to_response: 'videos' }
     )
 
-    puts details
-
     self.update!(
       details.except(
         'id',
